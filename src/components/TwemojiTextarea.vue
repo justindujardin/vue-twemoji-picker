@@ -281,7 +281,7 @@ export default Vue.extend({
         this.twemojiPicker.$refs.popupEmoji.popperInstance.forceUpdate();
     },
     onPaste(pasteEvent: ClipboardEvent): void {
-      let pastedData;
+      let pastedData = '';
 
       pasteEvent.stopPropagation();
       pasteEvent.preventDefault();
