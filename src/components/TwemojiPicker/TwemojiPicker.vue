@@ -365,9 +365,7 @@ export default Vue.extend({
     'popup-skins': PopupSkins,
   },
 
-  props: {
-    ...Props,
-  },
+  props: Object.assign({}, Props),
 
   data() {
     return {
@@ -492,7 +490,8 @@ export default Vue.extend({
 
       if (
         (this.isClickingEmojiMouseDown || this.$refs.popupSkins.popperOpen) &&
-        emoji.skins?.length > 0 &&
+        emoji.skins &&
+        emoji.skins.length > 0 &&
         this.skinsSelection
       ) {
         return;
@@ -516,7 +515,7 @@ export default Vue.extend({
     startClickingSkinInterval(emoji: Emoji): void {
       this.$refs.popupSkins.closePopper();
       this.isClickingEmojiMouseDown = false;
-      if (emoji.skins?.length > 0 && this.skinsSelection) {
+      if (emoji.skins && emoji.skins.length > 0 && this.skinsSelection) {
         if (!this.clickingSkinInterval) {
           this.clickingSkinInterval = setInterval(() => {
             this.skinsListActive = Array.from(emoji.skins);

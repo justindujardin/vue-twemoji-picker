@@ -15,7 +15,7 @@ export default {
     emojiPackArray = JSON.parse(JSON.stringify(emojiPackArray));
     const emojiPackWithImg: Array<EmojiPack> = [];
 
-    if (emojiPackArray?.length !== 0) {
+    if (emojiPackArray && emojiPackArray.length !== 0) {
       for (let i = 0; i < emojiPackArray.length; i++) {
         emojiPackWithImg[i] = { group: emojiPackArray[i].group, emojiList: [] };
 
@@ -23,7 +23,7 @@ export default {
           const emoji: Emoji = { unicode: '', img: '', skins: [], tags: [] };
           const emojiAuxObj: Emoji = emojiPackArray[i].emojiList[j];
 
-          if (emojiAuxObj.skins?.length > 0) {
+          if (emojiAuxObj.skins && emojiAuxObj.skins.length > 0) {
             emoji.unicode = emojiAuxObj.unicode;
             emoji.skins = [];
             for (let k = 0; k < emojiAuxObj.skins.length; k++) {
@@ -32,7 +32,7 @@ export default {
                 img: this.getEmojiImgFromUnicode(
                   emojiAuxObj.skins[k].unicode,
                   twemojiOptions
-                )
+                ),
               };
               emoji.skins.push(skinObject);
             }
@@ -60,13 +60,13 @@ export default {
     emojiPackArray = JSON.parse(JSON.stringify(emojiPackArray));
     const emojiPackWithImg = [];
 
-    if (emojiPackArray?.length !== 0) {
+    if (emojiPackArray && emojiPackArray.length !== 0) {
       for (let i = 0; i < emojiPackArray.length; i++) {
         for (let j = 0; j < emojiPackArray[i].emojiList.length; j++) {
           const emoji: Emoji = { unicode: '', img: '', skins: [], tags: [] };
           const emojiAuxObj: Emoji = emojiPackArray[i].emojiList[j];
 
-          if (emojiAuxObj.skins?.length > 0) {
+          if (emojiAuxObj.skins && emojiAuxObj.skins.length > 0) {
             emoji.unicode = emojiAuxObj.unicode;
             emoji.skins = [];
             for (let k = 0; k < emojiAuxObj.skins.length; k++) {
@@ -75,7 +75,7 @@ export default {
                 img: this.getEmojiImgFromUnicode(
                   emojiAuxObj.skins[k].unicode,
                   twemojiOptions
-                )
+                ),
               };
               emoji.skins.push(skinObject);
             }
@@ -99,5 +99,5 @@ export default {
     }
 
     return emojiPackWithImg;
-  }
+  },
 };

@@ -133,9 +133,7 @@ export default Vue.extend({
   },
   mixins: [propsForMixin],
 
-  props: {
-    ...TwemojiProps,
-
+  props: Object.assign({}, TwemojiProps, {
     // ** Textarea Props **/
     idTextarea: {
       default: 'twemoji-textarea-outer',
@@ -181,7 +179,7 @@ export default Vue.extend({
       type: Number as () => number,
       default: null,
     },
-  },
+  }),
 
   data() {
     return {
@@ -229,13 +227,11 @@ export default Vue.extend({
       }
 
       if (this.emojiTextWeightChanged) {
-        this.actualContentLength = TwitterText.parseTweet(
-          content || '', {
-            maxWeightedTweetLength: 280,
-            scale: 100,
-            defaultWeight: 100
-          }
-        ).weightedLength;
+        this.actualContentLength = TwitterText.parseTweet(content || '', {
+          maxWeightedTweetLength: 280,
+          scale: 100,
+          defaultWeight: 100,
+        }).weightedLength;
       } else {
         this.actualContentLength = TwitterText.parseTweet(
           content || ''
@@ -290,7 +286,9 @@ export default Vue.extend({
       pasteEvent.stopPropagation();
       pasteEvent.preventDefault();
       const clipboardData = pasteEvent.clipboardData;
-      pastedData = clipboardData?.getData('Text') || '';
+      if (clipboardData) {
+        pastedData = clipboardData.getData('Text') || '';
+      }
       pastedData = TextareaParser.escapeHTML(pastedData);
       pastedData = EmojiService.getEmojiImgFromUnicode(
         pastedData,
@@ -313,8 +311,10 @@ export default Vue.extend({
         const sel = window.getSelection();
         range.setStart(doc.childNodes[0], 0);
         range.collapse(true);
-        sel?.removeAllRanges();
-        sel?.addRange(range);
+        if (sel) {
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
         this.saveSelection();
       }
     },
@@ -324,7 +324,10 @@ export default Vue.extend({
     },
     saveSelection(): void {
       if (window.getSelection) {
-        this.savedRange = window.getSelection()?.getRangeAt(0);
+        const sel = window.getSelection();
+        if (sel) {
+          this.savedRange = sel.getRangeAt(0);
+        }
       }
     },
     restoreSelection(): void {
@@ -333,10 +336,12 @@ export default Vue.extend({
       if (this.savedRange != null) {
         if (window.getSelection) {
           const s = window.getSelection();
-          if (s?.rangeCount || 0 > 0) {
-            s?.removeAllRanges();
+          if (s) {
+            if (s.rangeCount || 0 > 0) {
+              s.removeAllRanges();
+            }
+            s.addRange(this.savedRange);
           }
-          s?.addRange(this.savedRange);
         }
       }
     },
