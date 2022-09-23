@@ -135,12 +135,11 @@ export default Vue.extend({
   },
   computed: {
     createPopper() {
-      const defaultModifiersObj = [
-        ...defaultModifiers,
+      const defaultModifiersObj = new Array().concat(defaultModifiers, [
         offset,
         preventOverflow,
         arrow,
-      ];
+      ]);
 
       return popperGenerator({
         defaultModifiers: defaultModifiersObj,

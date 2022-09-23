@@ -178,11 +178,10 @@ export default Vue.extend({
     },
   },
   mounted(): void {
-    const defaultModifiersObj: any = [
-      ...defaultModifiers,
+    const defaultModifiersObj: any = new Array().concat(defaultModifiers, [
       offset,
       preventOverflow,
-    ];
+    ]);
     if (this.autoflip) defaultModifiersObj.push(flip);
     if (this.arrowEnabled) defaultModifiersObj.push(arrow);
 

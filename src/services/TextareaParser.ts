@@ -20,9 +20,11 @@ export default {
     const escapedHtmlContent: string = escapedHtml.innerHTML;
 
     escapedHtml.removeChild(escapedHtmlTextNode);
-    divEscapedHtml.parentNode?.removeChild(divEscapedHtml);
+    if (divEscapedHtml.parentNode) {
+      divEscapedHtml.parentNode.removeChild(divEscapedHtml);
+    }
 
     // eslint-disable-next-line
     return escapedHtmlContent;
-  }
+  },
 };
